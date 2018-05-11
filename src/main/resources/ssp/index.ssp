@@ -1,0 +1,17 @@
+#import(java.lang.Integer) <%-- 如何导入一个包 --%>
+<%@ var seq:Seq[(String,String,String,String,Long)]%> <%-- 声明一个变量 变量实例从模板方法layout中传入 --%>
+<%escapeMarkup=true%> <%-- 是否转义。 如果设置为false的话，那么那么比如>符号会被转义为 $gt字符串  --%>
+#for ((guid,sourceType,inputPath,appName,streamingid) <- seq )
+    <Input input_${guid}>
+    Module im_${sourceType}
+    RenameCheck TRUE
+    ActiveFiles 10
+    File "${inputPath}"
+    Exclude
+    SavePos TRUE
+    ReadFromLast FALSE
+    Recursive TRUE
+    Exec convert_fields("WINDOWS-1252", "utf-8");$@@topic="${appName}";$@@streamingid="${streamingid}";
+    </Input>
+#end
+<%-- scala server page 模板引擎(ssp) --%>
